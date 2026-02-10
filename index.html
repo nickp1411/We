@@ -22,32 +22,41 @@ body{
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  padding:20px;
   text-align:center;
+  padding:20px;
 }
 .page.active{display:flex}
 
 /* PASSWORD */
 #pass{
-  font-size:22px;
+  font-size:15px;
   font-weight:bold;
   text-align:center;
-  letter-spacing:4px;
-  padding:14px;
-  border-radius:30px;
+  padding:12px 20px;
+  border-radius:25px;
   border:none;
+  outline:none;
 }
 
 /* BUTTON */
 button{
-  padding:12px 30px;
+  padding:12px 28px;
   border-radius:30px;
   border:none;
-  font-size:16px;
+  font-size:15px;
   font-weight:bold;
-  margin:15px;
+  margin:10px;
   background:white;
   color:#ff4d6d;
+}
+button:disabled{opacity:.5}
+
+/* NO TEXT */
+#noText{
+  min-height:30px;
+  font-size:17px;
+  color:#ffd1dc;
+  margin-bottom:10px;
 }
 
 /* CARD */
@@ -55,7 +64,7 @@ button{
   perspective:1000px;
   width:100%;
   max-width:420px;
-  height:75vh;
+  height:70vh;
 }
 .inner{
   width:100%;
@@ -70,7 +79,7 @@ button{
   position:absolute;
   width:100%;
   height:100%;
-  border-radius:20px;
+  border-radius:18px;
   backface-visibility:hidden;
   overflow:hidden;
 }
@@ -81,7 +90,7 @@ button{
   background:black;
 }
 .back{
-  background:rgba(0,0,0,.8);
+  background:rgba(0,0,0,.85);
   transform:rotateY(180deg);
   display:flex;
   align-items:center;
@@ -89,18 +98,11 @@ button{
   padding:20px;
 }
 .back span{
-  font-size:18px;
+  font-size:17px;
   line-height:1.6;
-  white-space:pre-line;
 }
 
-/* NEXT */
-.nextBtn{
-  margin-top:20px;
-  padding:12px 35px;
-}
-
-/* FIRECRACKER */
+/* FIRECRACKERS */
 .fire{
   position:fixed;
   width:6px;
@@ -120,24 +122,28 @@ audio{display:none}
 
 <body>
 
-<audio id="bgMusic" loop>
+<audio id="bgMusic" preload="auto" loop>
   <source src="love.mp3" type="audio/mpeg">
 </audio>
 
-<!-- PASSWORD -->
+<!-- PASSWORD PAGE -->
 <div class="page active" id="p0">
-  <h2>A Small Surprise for you 🦆</h2>
-  <input type="password" id="pass" placeholder="ENTER PASSWORD">
-  <button onclick="start()">Unlock ❤️</button>
+  <h2>A Small Surprise 🦆</h2>
+  <input id="pass" type="password" placeholder="Enter password">
+  <button onclick="unlock()">Unlock ❤️</button>
 </div>
 
 <!-- QUESTION -->
 <div class="page" id="p1">
   <h1>Will you be my Forever? 💖</h1>
-  <button onclick="go(2)">YES ❤️</button>
+  <p id="noText"></p>
+  <button id="yesBtn">YES ❤️</button>
+  <button id="noBtn">NO 💔</button>
 </div>
 
-<!-- PHOTO 1 -->
+<!-- PHOTO PAGES -->
+<!-- REPEAT STRUCTURE FOR EACH PHOTO -->
+
 <div class="page" id="p2">
   <div class="card" onclick="flip(this,'p2')">
     <div class="inner">
@@ -145,10 +151,9 @@ audio{display:none}
       <div class="back" data-text="Tum meri zindagi ka sabse khoobsurat hissa ho ❤️"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(3)">Next ❤️</button>
+  <button disabled onclick="go(3)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 2 -->
 <div class="page" id="p3">
   <div class="card" onclick="flip(this,'p3')">
     <div class="inner">
@@ -156,10 +161,9 @@ audio{display:none}
       <div class="back" data-text="Tumhare saath har pal special lagta hai ✨"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(4)">Next ❤️</button>
+  <button disabled onclick="go(4)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 3 -->
 <div class="page" id="p4">
   <div class="card" onclick="flip(this,'p4')">
     <div class="inner">
@@ -167,65 +171,59 @@ audio{display:none}
       <div class="back" data-text="Tumhari khushi sab kuch hai 🌙"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(5)">Next ❤️</button>
+  <button disabled onclick="go(5)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 4 -->
 <div class="page" id="p5">
   <div class="card" onclick="flip(this,'p5')">
     <div class="inner">
       <div class="front"><img src="photo4.jpg"></div>
-      <div class="back" data-text="Tum saath ho toh sab kuch aasaan lagta hai 💕"><span></span></div>
+      <div class="back" data-text="Tum saath ho toh sab aasaan lagta hai 💕"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(6)">Next ❤️</button>
+  <button disabled onclick="go(6)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 5 -->
 <div class="page" id="p6">
   <div class="card" onclick="flip(this,'p6')">
     <div class="inner">
       <div class="front"><img src="photo5.jpg"></div>
-      <div class="back" data-text="Phool jaisi ho, gulab lagti ho ❤️"><span></span></div>
+      <div class="back" data-text="Ful jesi ho gulab lagti ho ❤️"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(7)">Next ❤️</button>
+  <button disabled onclick="go(7)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 6 -->
 <div class="page" id="p7">
   <div class="card" onclick="flip(this,'p7')">
     <div class="inner">
       <div class="front"><img src="photo6.jpg"></div>
-      <div class="back" data-text="Always keep smiling ❤️"><span></span></div>
+      <div class="back" data-text="Always keep smiling 💖"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(8)">Next ❤️</button>
+  <button disabled onclick="go(8)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 7 -->
 <div class="page" id="p8">
   <div class="card" onclick="flip(this,'p8')">
     <div class="inner">
       <div class="front"><img src="photo7.jpg"></div>
-      <div class="back" data-text="Tu shayad kabhi samajh paaye ❤️"><span></span></div>
+      <div class="back" data-text="Tu shayad kabhi samajh paye ❤️"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(9)">Next ❤️</button>
+  <button disabled onclick="go(9)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 8 -->
 <div class="page" id="p9">
   <div class="card" onclick="flip(this,'p9')">
     <div class="inner">
       <div class="front"><img src="photo8.jpg"></div>
-      <div class="back" data-text="Tera tha, tera hoon, tera rahunga 💕"><span></span></div>
+      <div class="back" data-text="Tera tha aur rahunga bhi 💕"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(10)">Next ❤️</button>
+  <button disabled onclick="go(10)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 9 -->
 <div class="page" id="p10">
   <div class="card" onclick="flip(this,'p10')">
     <div class="inner">
@@ -233,60 +231,69 @@ audio{display:none}
       <div class="back" data-text="Har yaad mein sirf tu ho ❤️"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(11)">Next ❤️</button>
+  <button disabled onclick="go(11)">Next ❤️</button>
 </div>
 
-<!-- PHOTO 10 -->
 <div class="page" id="p11">
   <div class="card" onclick="flip(this,'p11')">
     <div class="inner">
       <div class="front"><img src="photo10.jpg"></div>
-      <div class="back" data-text="Tumse kitna pyaar hai, lafzon mein bayan nahi ho sakta ❤️"><span></span></div>
+      <div class="back" data-text="Tumse kitna pyaar hai, shabdon mein nahi ❤️"><span></span></div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(12)">Next 🌙</button>
-</div>
-
-<!-- FINAL -->
-<div class="page" id="p12">
-  <h2>🌙 Thank you for staying</h2>
-  <p>
-    Chahe hum baat kare ya na kare,<br>
-    tumhari jagah meri zindagi mein<br>
-    hamesha rahegi 🤍
-  </p>
 </div>
 
 <script>
 const PASSWORD="15082004";
 const pages=document.querySelectorAll(".page");
-const bgMusic=document.getElementById("bgMusic");
+const music=document.getElementById("bgMusic");
+const flippedOnce={};
 
-/* ANDROID AUDIO UNLOCK */
-document.body.addEventListener("touchstart",()=>{
-  bgMusic.play().catch(()=>{});
-},{once:true});
-
-function start(){
+/* MUSIC + PASSWORD */
+function unlock(){
   if(pass.value!==PASSWORD){
     alert("Wrong password 💔");
     return;
   }
-  bgMusic.play().catch(()=>{});
+  music.currentTime=0;
+  music.play();
   go(1);
 }
 
+/* PAGE NAV */
 function go(n){
   pages.forEach(p=>p.classList.remove("active"));
   document.getElementById("p"+n).classList.add("active");
 }
 
-/* FLIP + FIRECRACKER */
-const flipped={};
+/* YES / NO */
+yesBtn.onclick=()=>go(2);
 
+const messages=[
+  "Please ek baar aur soch le 🥺",
+  "Dil mat todo 💔",
+  "Bas ek YES ❤️",
+  "Itna bhi bhaav nahi 😅"
+];
+let msg=0,typing=false;
+
+noBtn.onclick=()=>{
+  if(typing)return;
+  typing=true;
+  noText.textContent="";
+  const text=messages[msg++%messages.length];
+  let i=0;
+  const t=setInterval(()=>{
+    noText.textContent+=text[i++];
+    if(i>=text.length){clearInterval(t);typing=false;}
+  },45);
+  noBtn.style.left=Math.random()*(innerWidth-120)+"px";
+  noBtn.style.top=Math.random()*(innerHeight-60)+"px";
+};
+
+/* FLIP + FIRE */
 function flip(card,page){
-  firecracker();
-
+  fireworks();
   const span=card.querySelector(".back span");
   const text=card.querySelector(".back").dataset.text;
 
@@ -301,16 +308,16 @@ function flip(card,page){
 
   card.classList.toggle("clicked");
 
-  if(!flipped[page]){
-    flipped[page]=true;
-    document.querySelector(`#${page} .nextBtn`).disabled=false;
+  if(!flippedOnce[page]){
+    flippedOnce[page]=true;
+    document.querySelector(`#${page} button`)?.removeAttribute("disabled");
   }
 }
 
-/* FIRECRACKER EFFECT */
-function firecracker(){
+/* FIREWORK EFFECT */
+function fireworks(){
   const colors=["#ff4d6d","#ffd166","#cdb4db","#bde0fe","#fff"];
-  for(let i=0;i<80;i++){
+  for(let i=0;i<70;i++){
     const f=document.createElement("div");
     f.className="fire";
     f.style.background=colors[Math.random()*colors.length|0];
