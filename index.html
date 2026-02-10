@@ -12,7 +12,6 @@ body {
   margin: 0;
   background: linear-gradient(135deg, #ff758c, #ff7eb3);
   color: white;
-  overflow-x: hidden;
 }
 
 /* PAGE */
@@ -91,6 +90,13 @@ button:disabled {
   background: black;
 }
 
+.front p {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  background: rgba(0,0,0,0.4);
+}
+
 .back {
   background: rgba(0,0,0,0.75);
   transform: rotateY(180deg);
@@ -122,34 +128,32 @@ button:disabled {
   margin-bottom: 10px;
 }
 
-/* 🎆 FIREWORKS */
-.firework {
+/* HEARTS */
+.heart {
   position: fixed;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  bottom: -20px;
+  animation: floatUp 4.5s linear forwards;
   pointer-events: none;
-  animation: explode 1.2s ease-out forwards;
 }
 
-@keyframes explode {
-  0% {
-    transform: translate(0,0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(var(--x), var(--y)) scale(0);
-    opacity: 0;
-  }
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
 }
 
 audio { display:none; }
 
-/* 📱 MOBILE */
+/* 📱 MOBILE FIX */
 @media (max-width: 768px) {
-  .cards { grid-template-columns: 1fr; }
-  .card { height: 70vh; }
-  .inner { transition: transform 0.6s; }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    height: 70vh;
+  }
+  .inner {
+    transition: transform 0.6s;
+  }
 }
 </style>
 </head>
@@ -175,7 +179,7 @@ audio { display:none; }
   <button id="noBtn">NO 💔</button>
 </div>
 
-<!-- PHOTO PAGE -->
+<!-- PHOTO PAGES -->
 <div class="page" id="p2">
   <div class="cards">
     <div class="card" onclick="flip(this,'p2')">
@@ -192,11 +196,86 @@ audio { display:none; }
       </div>
     </div>
   </div>
-  <button class="nextBtn" disabled onclick="go(3)">Next ❤️</button>
+  <button class="nextBtn" id="next2" disabled onclick="go(3)">Next ❤️</button>
 </div>
 
-<!-- FINAL -->
 <div class="page" id="p3">
+  <div class="cards">
+    <div class="card" onclick="flip(this,'p3')">
+      <div class="inner">
+        <div class="front"><img src="photo3.jpg"></div>
+        <div class="back" data-text="Tumhari khushi sab kuch hai 🌙"><span></span></div>
+      </div>
+    </div>
+
+    <div class="card" onclick="flip(this,'p3')">
+      <div class="inner">
+        <div class="front"><img src="photo4.jpg"></div>
+        <div class="back" data-text="Tum saath ho toh sab kuch aasaan lagta hai 💕"><span></span></div>
+      </div>
+    </div>
+  </div>
+  <button class="nextBtn" id="next3" disabled onclick="go(4)">Next ❤️</button>
+</div>
+
+<div class="page" id="p4">
+  <div class="cards">
+    <div class="card" onclick="flip(this,'p4')">
+      <div class="inner">
+        <div class="front"><img src="photo5.jpg"></div>
+        <div class="back" data-text="Phool jaisi ho, gulab lagti ho ❤️"><span></span></div>
+      </div>
+    </div>
+
+    <div class="card" onclick="flip(this,'p4')">
+      <div class="inner">
+        <div class="front"><img src="photo6.jpg"></div>
+        <div class="back" data-text="💕 Always keep smiling ❤️"><span></span></div>
+      </div>
+    </div>
+  </div>
+  <button class="nextBtn" id="next4" disabled onclick="go(5)">Next ❤️</button>
+</div>
+
+<div class="page" id="p5">
+  <div class="cards">
+    <div class="card" onclick="flip(this,'p5')">
+      <div class="inner">
+        <div class="front"><img src="photo7.jpg"></div>
+        <div class="back" data-text="Tu shayad kabhi samajh paaye ❤️"><span></span></div>
+      </div>
+    </div>
+
+    <div class="card" onclick="flip(this,'p5')">
+      <div class="inner">
+        <div class="front"><img src="photo8.jpg"></div>
+        <div class="back" data-text="💕 Tera tha, tera hoon, tera rahunga 💕"><span></span></div>
+      </div>
+    </div>
+  </div>
+  <button class="nextBtn" id="next5" disabled onclick="go(6)">Next ❤️</button>
+</div>
+
+<div class="page" id="p6">
+  <div class="cards">
+    <div class="card" onclick="flip(this,'p6')">
+      <div class="inner">
+        <div class="front"><img src="photo9.jpg"></div>
+        <div class="back" data-text="Har yaad mein sirf tu ho ❤️"><span></span></div>
+      </div>
+    </div>
+
+    <div class="card" onclick="flip(this,'p6')">
+      <div class="inner">
+        <div class="front"><img src="photo10.jpg"></div>
+        <div class="back" data-text="Tumse kitna pyaar hai, shabdon mein bayan nahi ho sakta ❤️"><span></span></div>
+      </div>
+    </div>
+  </div>
+  <button class="nextBtn" id="next6" disabled onclick="go(7)">Next 🌙</button>
+</div>
+
+<div class="page" id="p7">
   <h2>🌙 Thank you for staying</h2>
   <p>Chahe hum baat kare ya na kare,<br>tumhari jagah meri zindagi mein hamesha rahegi 🤍</p>
 </div>
@@ -220,28 +299,47 @@ function unlock() {
 function go(n) {
   pages.forEach(p => p.classList.remove("active"));
   document.getElementById("p"+n).classList.add("active");
-  startFireworks();
 }
 
-yesBtn.onclick = () => go(2);
+yesBtn.onclick = () => {
+  go(2);
+  startHearts();
+};
 
 /* NO BUTTON */
 const messages = [
   "Please ek baar aur soch le 🥺",
   "Dil mat todo 😭",
   "Bas ek YES ❤️",
+  "Itna bhi bhaav nahi 😅",
   "Sach mein NO? 😳"
 ];
-let i = 0;
+let msgIndex = 0;
+let typing = false;
+
+function typeText(text) {
+  if (typing) return;
+  typing = true;
+  noText.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    noText.textContent += text[i++];
+    if (i >= text.length) {
+      clearInterval(interval);
+      typing = false;
+    }
+  }, 45);
+}
 
 noBtn.onclick = () => {
-  noText.textContent = messages[i++ % messages.length];
+  typeText(messages[msgIndex++ % messages.length]);
   noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
   noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
 };
 
-/* FLIP */
+/* FLIP – UNLIMITED */
 const flipped = {};
+
 function flip(card, pageId) {
   const back = card.querySelector(".back span");
   const text = card.querySelector(".back").dataset.text;
@@ -249,9 +347,9 @@ function flip(card, pageId) {
   if (!card.classList.contains("clicked")) {
     back.textContent = "";
     let i = 0;
-    const t = setInterval(() => {
+    const interval = setInterval(() => {
       back.textContent += text[i++];
-      if (i >= text.length) clearInterval(t);
+      if (i >= text.length) clearInterval(interval);
     }, 35);
   }
 
@@ -266,21 +364,19 @@ function flip(card, pageId) {
   }
 }
 
-/* 🎆 FIREWORKS FUNCTION */
-function startFireworks() {
-  const colors = ["#ff4d6d", "#ffd166", "#cdb4db", "#bde0fe", "#fff"];
-
-  for (let i = 0; i < 120; i++) {
-    const fw = document.createElement("div");
-    fw.className = "firework";
-    fw.style.background = colors[Math.floor(Math.random()*colors.length)];
-    fw.style.left = Math.random() * window.innerWidth + "px";
-    fw.style.top = Math.random() * window.innerHeight + "px";
-    fw.style.setProperty("--x", (Math.random()*300-150)+"px");
-    fw.style.setProperty("--y", (Math.random()*300-150)+"px");
-
-    document.body.appendChild(fw);
-    setTimeout(() => fw.remove(), 1200);
+/* HEARTS */
+function startHearts() {
+  const emojis = ["❤️","💖","💕","💘"];
+  for (let i = 0; i < 200; i++) {
+    setTimeout(() => {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+      h.style.left = Math.random()*100 + "vw";
+      h.style.fontSize = (18+Math.random()*30)+"px";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),4500);
+    }, i*120);
   }
 }
 </script>
