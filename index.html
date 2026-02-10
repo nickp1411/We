@@ -32,9 +32,9 @@ input,button{
 input{font-weight:bold;text-align:center}
 button{background:white;color:#ff4d6d;font-weight:bold}
 button:disabled{opacity:.5;cursor:not-allowed}
-#noBtn{position:absolute}
+#noBtn{position:static} 
 #noText{min-height:30px;font-size:18px;margin-bottom:10px;font-weight:bold}
-.button-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.button-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;align-items:center}
 .card{perspective:1000px;width:100%;max-width:420px;height:70vh;margin:15px 0}
 .inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s}
 .card.clicked .inner{transform:rotateY(180deg)}
@@ -58,12 +58,14 @@ audio{display:none}
   <source src="love.mp3" type="audio/mpeg">
 </audio>
 
+<!-- PASSWORD PAGE -->
 <div class="page active" id="p0">
   <h2> A Small Surprise for you 🦆</h2>
   <input type="password" id="pass" placeholder="Enter password">
   <button onclick="unlock()">Unlock ❤️</button>
 </div>
 
+<!-- VALENTINE PAGE -->
 <div class="page" id="p1">
   <h1>Will you be my Forever? 💖</h1>
   <p id="noText"></p>
@@ -174,6 +176,7 @@ audio{display:none}
   <button disabled onclick="go(12)">Next 🌙</button>
 </div>
 
+<!-- THANK YOU PAGE -->
 <div class="page" id="p12">
   <h2>🌙 Thank you for staying</h2>
   <p>
@@ -191,8 +194,8 @@ const noText=document.getElementById("noText");
 const pass=document.getElementById("pass");
 const yesBtn=document.getElementById("yesBtn");
 const noBtn=document.getElementById("noBtn");
-
 const colors=["#ff4d6d","#ffd166","#cdb4db","#bde0fe","#fff","#ff85a2","#ffca3a"];
+let heartsStarted=false;
 
 /* PASSWORD + MUSIC */
 function unlock(){
@@ -200,20 +203,23 @@ function unlock(){
   music.currentTime=0;
   music.play();
   go(1);
-  startHearts();
 }
 
 /* PAGE NAV */
 function go(n){
   pages.forEach(p=>p.classList.remove("active"));
   document.getElementById("p"+n).classList.add("active");
+  if(n>=2 && !heartsStarted){
+    startHearts();
+    heartsStarted=true;
+  }
 }
 
 /* YES / NO */
 yesBtn.onclick=()=>go(2);
 
 const messages=[
-  "Fir se soch le Gawar",
+  "Please ek baar aur soch le🥺",
   "Dil mat todo, Dargah chlegi",
   "dekh kr delete kr dena 🤣",
   "Bas ek YES or 50+ Mark's 🌸",
@@ -240,8 +246,6 @@ noBtn.onclick=()=>{
     i++;
     if(i>=text.length){clearInterval(t);typing=false;}
   },45);
-  noBtn.style.left=Math.random()*(innerWidth-120)+"px";
-  noBtn.style.top=Math.random()*(innerHeight-60)+"px";
   startPunches();
 };
 
@@ -261,7 +265,6 @@ function flip(card,page){
     },35);
   }
   card.classList.toggle("clicked");
-  // Enable next button after flip
   const btn=document.querySelector(`#${page} button`);
   if(btn) btn.disabled=false;
 }
@@ -282,18 +285,20 @@ function fireworks(){
   }
 }
 
-/* FLOATING HEARTS */
+/* FLOATING HEARTS - more hearts */
 function startHearts(){
   const emojis=["❤️","💖","💕","💘"];
   setInterval(()=>{
-    const heart=document.createElement("div");
-    heart.className="heart";
-    heart.innerText=emojis[Math.floor(Math.random()*emojis.length)];
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(14+Math.random()*20)+"px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),3000);
-  },200);
+    for(let j=0;j<2;j++){
+      const heart=document.createElement("div");
+      heart.className="heart";
+      heart.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+      heart.style.left=Math.random()*100+"vw";
+      heart.style.fontSize=(14+Math.random()*20)+"px";
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(),3000);
+    }
+  },100);
 }
 
 /* PUNCHES ON NO */
