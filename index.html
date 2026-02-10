@@ -51,7 +51,8 @@ button:disabled{opacity:.5}
 #noText{
   min-height:30px;
   font-size:18px;
-  color:#ffd1dc;
+  margin-bottom:10px;
+  font-weight:bold;
 }
 
 /* CARD */
@@ -116,6 +117,30 @@ button:disabled{opacity:.5}
 @keyframes blast{
   from{transform:translate(0,0);opacity:1}
   to{transform:translate(var(--x),var(--y));opacity:0}
+}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  animation:floatUp 4.5s linear forwards;
+  pointer-events:none;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:1}
+  100%{transform:translateY(-100vh);opacity:0}
+}
+
+/* PUNCH */
+.punch{
+  position:fixed;
+  bottom:-20px;
+  animation:punchUp 3s linear forwards;
+  pointer-events:none;
+}
+@keyframes punchUp{
+  0%{transform:translateY(0);opacity:1}
+  100%{transform:translateY(-80vh);opacity:0}
 }
 
 audio{display:none}
@@ -269,6 +294,7 @@ function unlock(){
   music.currentTime=0;
   music.play();
   go(1);
+  startHearts(); // hearts start on yes page and beyond
 }
 
 /* PAGE NAV */
@@ -307,9 +333,10 @@ noBtn.onclick=()=>{
   },45);
   noBtn.style.left=Math.random()*(innerWidth-120)+"px";
   noBtn.style.top=Math.random()*(innerHeight-60)+"px";
+  startPunches();
 };
 
-/* FLIP + FIRE */
+/* FLIP + FIREWORKS */
 const unlocked={};
 function flip(card,page){
   fireworks();
@@ -347,7 +374,36 @@ function fireworks(){
     setTimeout(()=>f.remove(),1000);
   }
 }
-</script>
 
+/* FLOATING HEARTS */
+function startHearts(){
+  const emojis=["❤️","💖","💕","💘"];
+  setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(18+Math.random()*30)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),4500);
+  },300);
+}
+
+/* PUNCHES ON NO */
+function startPunches(){
+  const emojis=["🥊","👊"];
+  for(let i=0;i<10;i++){
+    setTimeout(()=>{
+      const p=document.createElement("div");
+      p.className="punch";
+      p.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+      p.style.left=Math.random()*100+"vw";
+      p.style.fontSize=(20+Math.random()*20)+"px";
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(),3000);
+    },i*100);
+  }
+}
+</script>
 </body>
 </html>
