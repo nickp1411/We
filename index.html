@@ -6,16 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-
+*{box-sizing:border-box;font-family:'Segoe UI',sans-serif;margin:0;padding:0}
 body{
-  margin:0;
   background:linear-gradient(135deg,#ff758c,#ff7eb3);
   color:white;
   overflow-x:hidden;
 }
-
-/* PAGE */
 .page{
   display:none;
   min-height:100vh;
@@ -26,8 +22,6 @@ body{
   text-align:center;
 }
 .page.active{display:flex}
-
-/* INPUT + BUTTON */
 input,button{
   padding:12px 20px;
   border-radius:25px;
@@ -35,114 +29,26 @@ input,button{
   font-size:15px;
   margin:10px;
 }
-input{
-  font-weight:bold;
-  text-align:center;
-}
-button{
-  background:white;
-  color:#ff4d6d;
-  font-weight:bold;
-}
-button:disabled{opacity:.5}
-
-/* NO BUTTON */
+input{font-weight:bold;text-align:center}
+button{background:white;color:#ff4d6d;font-weight:bold}
+button:disabled{opacity:.5;cursor:not-allowed}
 #noBtn{position:absolute}
-#noText{
-  min-height:30px;
-  font-size:18px;
-  margin-bottom:10px;
-  font-weight:bold;
-}
-
-/* CARD */
-.card{
-  perspective:1000px;
-  width:100%;
-  max-width:420px;
-  height:70vh;
-}
-.inner{
-  width:100%;
-  height:100%;
-  position:relative;
-  transform-style:preserve-3d;
-  transition:transform .8s;
-}
+#noText{min-height:30px;font-size:18px;margin-bottom:10px;font-weight:bold}
+.button-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.card{perspective:1000px;width:100%;max-width:420px;height:70vh;margin:15px 0}
+.inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s}
 .card.clicked .inner{transform:rotateY(180deg)}
-
-.front,.back{
-  position:absolute;
-  width:100%;
-  height:100%;
-  border-radius:15px;
-  backface-visibility:hidden;
-  overflow:hidden;
-}
-.front img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  background:black;
-}
-.front p{
-  position:absolute;
-  bottom:5px;
-  width:100%;
-  background:rgba(0,0,0,.4);
-}
-.back{
-  background:rgba(0,0,0,.7);
-  transform:rotateY(180deg);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-}
-.back span{
-  font-size:18px;
-  line-height:1.5;
-  white-space:pre-line;
-}
-
-/* FIREWORKS */
-.fire{
-  position:fixed;
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  animation:blast 1s ease-out forwards;
-  pointer-events:none;
-}
-@keyframes blast{
-  from{transform:translate(0,0);opacity:1}
-  to{transform:translate(var(--x),var(--y));opacity:0}
-}
-
-/* HEARTS */
-.heart{
-  position:fixed;
-  bottom:-20px;
-  animation:floatUp 4.5s linear forwards;
-  pointer-events:none;
-}
-@keyframes floatUp{
-  0%{transform:translateY(0);opacity:1}
-  100%{transform:translateY(-100vh);opacity:0}
-}
-
-/* PUNCH */
-.punch{
-  position:fixed;
-  bottom:-20px;
-  animation:punchUp 3s linear forwards;
-  pointer-events:none;
-}
-@keyframes punchUp{
-  0%{transform:translateY(0);opacity:1}
-  100%{transform:translateY(-80vh);opacity:0}
-}
-
+.front,.back{position:absolute;width:100%;height:100%;border-radius:15px;backface-visibility:hidden;overflow:hidden}
+.front img{width:100%;height:100%;object-fit:contain;background:black}
+.front p{position:absolute;bottom:5px;width:100%;background:rgba(0,0,0,.4)}
+.back{background:rgba(0,0,0,.7);transform:rotateY(180deg);display:flex;align-items:center;justify-content:center;padding:15px}
+.back span{font-size:16px;line-height:1.5;white-space:pre-line}
+.fire{position:fixed;width:4px;height:4px;border-radius:50%;animation:blast 0.8s ease-out forwards;pointer-events:none}
+@keyframes blast{from{transform:translate(0,0);opacity:1}to{transform:translate(var(--x),var(--y));opacity:0}}
+.heart{position:fixed;bottom:-10px;animation:floatUp 3s linear forwards;pointer-events:none;font-size:14px}
+@keyframes floatUp{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-100vh);opacity:0}}
+.punch{position:fixed;bottom:-10px;animation:punchUp 2s linear forwards;pointer-events:none;font-size:16px}
+@keyframes punchUp{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-80vh);opacity:0}}
 audio{display:none}
 </style>
 </head>
@@ -152,19 +58,19 @@ audio{display:none}
   <source src="love.mp3" type="audio/mpeg">
 </audio>
 
-<!-- PASSWORD -->
 <div class="page active" id="p0">
   <h2> A Small Surprise for you 🦆</h2>
   <input type="password" id="pass" placeholder="Enter password">
   <button onclick="unlock()">Unlock ❤️</button>
 </div>
 
-<!-- VALENTINE -->
 <div class="page" id="p1">
   <h1>Will you be my Forever? 💖</h1>
   <p id="noText"></p>
-  <button id="yesBtn">YES ❤️</button>
-  <button id="noBtn">NO 💔</button>
+  <div class="button-row">
+    <button id="yesBtn">YES ❤️</button>
+    <button id="noBtn">NO 💔</button>
+  </div>
 </div>
 
 <!-- PHOTO PAGES -->
@@ -261,16 +167,13 @@ audio{display:none}
 <div class="page" id="p11">
   <div class="card" onclick="flip(this,'p11')">
     <div class="inner">
-      <div class="front">
-        <img src="photo10.jpg">
-        <p>Your Memories ❤️</p>
-      </div>
+      <div class="front"><img src="photo10.jpg"><p>Your Memories ❤️</p></div>
       <div class="back" data-text=" Tumse kitna pyaar hai, yeh sirf kehne se jata nahi skta main tumhe har baat samjha nahi sakta, aur shayad meri khamoshi tum kabhi smjh nh skti."><span></span></div>
     </div>
   </div>
+  <button disabled onclick="go(12)">Next 🌙</button>
 </div>
 
-<!-- THANK YOU PAGE -->
 <div class="page" id="p12">
   <h2>🌙 Thank you for staying</h2>
   <p>
@@ -284,17 +187,20 @@ audio{display:none}
 const PASSWORD="15082004";
 const pages=document.querySelectorAll(".page");
 const music=document.getElementById("bgMusic");
+const noText=document.getElementById("noText");
+const pass=document.getElementById("pass");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+
+const colors=["#ff4d6d","#ffd166","#cdb4db","#bde0fe","#fff","#ff85a2","#ffca3a"];
 
 /* PASSWORD + MUSIC */
 function unlock(){
-  if(pass.value!==PASSWORD){
-    alert("Wrong password 💔");
-    return;
-  }
+  if(pass.value!==PASSWORD){ alert("Wrong password 💔"); return; }
   music.currentTime=0;
   music.play();
   go(1);
-  startHearts(); // hearts start on yes page and beyond
+  startHearts();
 }
 
 /* PAGE NAV */
@@ -307,7 +213,7 @@ function go(n){
 yesBtn.onclick=()=>go(2);
 
 const messages=[
-  "Please ek baar aur soch le🥺",
+  "Fir se soch le Gawar",
   "Dil mat todo, Dargah chlegi",
   "dekh kr delete kr dena 🤣",
   "Bas ek YES or 50+ Mark's 🌸",
@@ -321,14 +227,17 @@ const messages=[
 
 let msgIndex=0,typing=false;
 
+/* NO BUTTON CLICK */
 noBtn.onclick=()=>{
   if(typing)return;
   typing=true;
-  noText.textContent="";
+  noText.innerHTML="";
   const text=messages[msgIndex++%messages.length];
   let i=0;
   const t=setInterval(()=>{
-    noText.textContent+=text[i++];
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    noText.innerHTML+=`<span style="color:${color};font-weight:bold">${text[i]}</span>`;
+    i++;
     if(i>=text.length){clearInterval(t);typing=false;}
   },45);
   noBtn.style.left=Math.random()*(innerWidth-120)+"px";
@@ -336,42 +245,40 @@ noBtn.onclick=()=>{
   startPunches();
 };
 
-/* FLIP + FIREWORKS */
-const unlocked={};
+/* FLIP + FIREWORKS + RANDOM COLOR */
 function flip(card,page){
   fireworks();
   const span=card.querySelector(".back span");
   const text=card.querySelector(".back").dataset.text;
-
   if(!card.classList.contains("clicked")){
     span.textContent="";
     let i=0;
     const t=setInterval(()=>{
-      span.textContent+=text[i++];
+      const color=colors[Math.floor(Math.random()*colors.length)];
+      span.innerHTML+=`<span style="color:${color}">${text[i]}</span>`;
+      i++;
       if(i>=text.length)clearInterval(t);
     },35);
   }
   card.classList.toggle("clicked");
-
-  if(!unlocked[page]){
-    unlocked[page]=true;
-    document.querySelector(`#${page} button`)?.removeAttribute("disabled");
-  }
+  // Enable next button after flip
+  const btn=document.querySelector(`#${page} button`);
+  if(btn) btn.disabled=false;
 }
 
 /* FIREWORKS */
 function fireworks(){
   const colors=["#ff4d6d","#ffd166","#cdb4db","#bde0fe","#fff"];
-  for(let i=0;i<70;i++){
+  for(let i=0;i<50;i++){
     const f=document.createElement("div");
     f.className="fire";
-    f.style.background=colors[Math.random()*colors.length|0];
+    f.style.background=colors[Math.floor(Math.random()*colors.length)];
     f.style.left=innerWidth/2+"px";
     f.style.top=innerHeight/2+"px";
-    f.style.setProperty("--x",(Math.random()*300-150)+"px");
-    f.style.setProperty("--y",(Math.random()*300-150)+"px");
+    f.style.setProperty("--x",(Math.random()*250-125)+"px");
+    f.style.setProperty("--y",(Math.random()*250-125)+"px");
     document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1000);
+    setTimeout(()=>f.remove(),800);
   }
 }
 
@@ -383,10 +290,10 @@ function startHearts(){
     heart.className="heart";
     heart.innerText=emojis[Math.floor(Math.random()*emojis.length)];
     heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(18+Math.random()*30)+"px";
+    heart.style.fontSize=(14+Math.random()*20)+"px";
     document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),4500);
-  },300);
+    setTimeout(()=>heart.remove(),3000);
+  },200);
 }
 
 /* PUNCHES ON NO */
@@ -398,9 +305,9 @@ function startPunches(){
       p.className="punch";
       p.innerText=emojis[Math.floor(Math.random()*emojis.length)];
       p.style.left=Math.random()*100+"vw";
-      p.style.fontSize=(20+Math.random()*20)+"px";
+      p.style.fontSize=(16+Math.random()*14)+"px";
       document.body.appendChild(p);
-      setTimeout(()=>p.remove(),3000);
+      setTimeout(()=>p.remove(),2000);
     },i*100);
   }
 }
